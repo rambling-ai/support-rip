@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import './App.css';
 import axios from 'axios';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, CircularProgress, Snackbar } from '@mui/material';
 
 function App() {
   const [message, setMessage] = useState('');
   const [originalMessage, setOriginalMessage] = useState('');
   const [response, setResponse] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(response).then(() => {
+      setCopySuccess(true);
+    });
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setResponse('');
     setOriginalMessage(message);
     try {
       const { data } = await axios.post('http://localhost:8006/fix/', { message }, {
@@ -19,6 +30,8 @@ function App() {
       setOriginalMessage(data.original_message);
     } catch (error) {
       console.error('Error submitting the form:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,26 +63,37 @@ function App() {
           <Button type="submit" variant="contained" color="primary">
             convert to Support Tone
           </Button>
+          {loading && <CircularProgress size={24} sx={{ marginLeft: 2 }} />}
         </Box>
       </form>
-<Box my={3}>
+      <Box my={3}>
       {response && (
-      <>
-        <TextField
-          id="message"
-          label="What you meant to say"
-          multiline
-          fullWidth
-          variant="outlined"
-          required
-          value={response}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-      </>
-    )}
+        <>
+          <TextField
+            id="message"
+            label="What you meant to say"
+            multiline
+            fullWidth
+            variant="outlined"
+            required
+            value={response}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <Box mt={1}>
+            <Button onClick={handleCopy} disabled={!response} variant="contained">
+              <span>copy text 📋</span>
+            </Button>
+          </Box>
+          <Snackbar
+            open={copySuccess}
+            autoHideDuration={3000}
+            onClose={() => setCopySuccess(false)}
+            message="Copied to clipboard!"
+          />
+        </>
+      )}
     </Box>
-    </Container>
-  );
+  </Container>
+);
 }
-
 export default App;
