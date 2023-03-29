@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar and Tone Correction</title>
+</head>
+<body>
+<h1>Grammar and Tone Correction Assistant</h1>
+<p>This assistant helps improve the grammar and tone of support messages.</p>
+<form action="/fix" method="post">
+<label for="message">Your Message:</label><br>
+<textarea id="message" name="message" rows="5" cols="50" required></textarea><br>
+<button type="submit">Submit</button>
+</form>
+
+{% if response %}
+<h2>Original Message:</h2>
+<p>{{ original_message }}</p>
+<h2>Improved Message:</h2>
+<p>{{ response | safe}}</p>
+{% endif %}
+</body>
+</html>
+
