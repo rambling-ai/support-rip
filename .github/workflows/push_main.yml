@@ -1,0 +1,34 @@
+name: Main Branch Deploy
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+
+jobs:
+
+  docker_push_backend:
+    name: "Push docker image"
+    uses: "./.github/workflows/r-docker-build-push.yml"
+
+    with:
+      repository: philipcristiano/support.rip
+      context: backend/
+
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  docker_push_frontend:
+    name: "Push docker image"
+    uses: "./.github/workflows/r-docker-build-push.yml"
+
+    with:
+      repository: philipcristiano/support.rip
+      context: frontend/
+
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

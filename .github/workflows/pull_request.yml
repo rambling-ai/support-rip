@@ -1,0 +1,23 @@
+name: Pull Request
+
+on:
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  docker_build_backend:
+    name: "Build docker image"
+    uses: "./.github/workflows/r-docker-build.yml"
+
+    with:
+      context: backend/
+
+  docker_build_frontend:
+    name: "Build docker image"
+    uses: "./.github/workflows/r-docker-build.yml"
+
+    with:
+      context: frontend/
