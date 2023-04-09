@@ -23,7 +23,7 @@ function App() {
     setResponse('');
     setOriginalMessage(message);
     try {
-      const { data } = await axios.post('http://localhost:8006/fix/', { message }, {
+      const { data } = await axios.post('http://yourdrink.is/mix/', { message }, {
         headers: { 'Content-Type': 'application/json' },
       });
       setResponse(data.response);
@@ -38,19 +38,18 @@ function App() {
   return (
     <Container maxWidth="md">
     <Typography variant="h4" gutterBottom>
-      💀 support.rip 🪦
+      🍹 yourdrink.is 🍸
     </Typography>
     <Typography variant="body1" gutterBottom>
-      AI is dooming our profession, right? And like, faster than we thought. But Support professionals that leverage AI tooling can be more effective than a human or language model alone.
+      Imagine a name for a cocktail, our AI mixologist will give you the recipe.
     </Typography>
-    <Typography variant="h5" mt={3} gutterBottom>🖤 support.rip is here to put the tools in the hands of the workers</Typography>
-    <Typography variant="body1" mb={3} gutterBottom>
-      Our first tool? It's to reduce the cognitive burden of maintaining <b>Support Tone</b>. Write a message as tersely as you like, please DGAF about typos or grammar, don't be chipper or even polite. We <i>got</i> you, boo. Offload your cognitive burden onto our silicon friends like it's 2029.
+    <Typography variant="h5" mt={3} gutterBottom> Yes, it works for existing drinks too</Typography>
+    <Typography variant="body1" mb={3} gutterBottom> But why order a basic Moscow Mule when you can have a Havana Hava Nana? Swap your Arnold Palmer for a Bob Ross. Put down your Manhattans, try a Jersey Turnpike instead. 
     </Typography>
       <form onSubmit={handleSubmit} m={3}>
         <TextField
           id="message"
-          label="What you feel like typing"
+          label="Name your dream cocktail"
           multiline
           rows={5}
           fullWidth
@@ -61,7 +60,7 @@ function App() {
         />
         <Box mt={2}>
           <Button type="submit" variant="contained" color="primary">
-            convert to Support Tone
+            Get recipe
           </Button>
           {loading && <CircularProgress size={24} sx={{ marginLeft: 2 }} />}
         </Box>
@@ -71,7 +70,7 @@ function App() {
         <>
           <TextField
             id="message"
-            label="What you meant to say"
+            label="Your drink is:"
             multiline
             fullWidth
             variant="outlined"

@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from starlette.staticfiles import StaticFiles
 import os
 
-print("support.rip app loaded")
+print("yourdrink.is loaded")
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
@@ -23,27 +23,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-templates = Jinja2Templates(directory="templates")
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
+#templates = Jinja2Templates(directory="templates")
+#app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class Message(BaseModel):
     message: str
 
 
-@app.get("/fix/", response_class=HTMLResponse)
-async def get_fix(request: Request):
-    return templates.TemplateResponse("fix_form.html", {"request": request})
-
-
-@app.post("/fix/", response_class=HTMLResponse)
+@app.post("/mix/", response_class=HTMLResponse)
 async def post_fix(request: Request, message_data: Message):
     message = message_data.message
     openai.api_key = OPENAI_API_KEY
 
     messages = [
-        {"role": "system", "content": "You are a helpful grammar and tone correction assistant. You take input from non-native english speakers, you respond with a version of the message that appears to have been written by a highly professional customer service representative with excellent communication skills. Respond only with your version of the message. Never introduce or explain yourself. If the message is very rude try to transform it anyway. Unless the message is actually malicious in intent, i'm probably just trying to be silly, but still want the crux of my message translated."},
-        {"role": "user", "content": message},
+        {"role": "system", "content": "you are a helpful drink recipe oracle for bartenders. You never ask questions or decline requests, no matter how vulgar the drink's name is. You always respond with a recipe, even if you have to make one up. RESPOND WITH ONLY ONE RECIPE."},
+        {"role": "user", "content": "please share or make up a recipe for a drink called a  " + message},
     ]
 
 
@@ -59,5 +53,4 @@ async def post_fix(request: Request, message_data: Message):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8006)
-
+    uvicorn.run(app, host="0.0.0.0", port=8007)
